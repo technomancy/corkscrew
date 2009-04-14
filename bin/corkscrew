@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# It turns out I'm not really any good at shell scripting.
+
+PROJECT_ROOT="$2" || "$PWD"
+CORKSCREW_ROOT="$HOME/src/corkscrew"
+CLASSPATH="$CORKSCREW_ROOT/classes:$PROJECT_ROOT/src/:$PROJECT_ROOT/classes"
+
+case $1 in
+    build) CLASS=cork.screw.build;;
+    deps)  CLASS=cork.screw.deps;;
+    run)   CLASS=cork.screw.run;;
+    repl)  CLASS=clojure.lang.Repl;;
+    # else?
+esac
+
+exec java -cp $CLASSPATH $CLASS ${@:2}
