@@ -4,13 +4,13 @@
 
 PROJECT_ROOT="$2" || "$PWD"
 CORKSCREW_ROOT="$HOME/src/corkscrew"
-CLASSPATH="$CORKSCREW_ROOT/classes:$PROJECT_ROOT/src/:$PROJECT_ROOT/classes"
+CLASSPATH="$CORKSCREW_ROOT/dependencies/:$CORKSCREW_ROOT/classes/"
 
 case $1 in
-    build) CLASS=cork.screw.build;;
-    deps)  CLASS=cork.screw.deps;;
-    run)   CLASS=cork.screw.run;;
-    repl)  CLASS=clojure.lang.Repl;;
+    build)   CLASS=cork.screw.build;;
+    deps)    CLASS=cork.screw.deps;;
+    install) CLASS=cork.screw.install;;
+    repl)    CLASS=clojure.lang.Repl;;
     # else?
 esac
 

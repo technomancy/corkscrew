@@ -1,3 +1,5 @@
+* Corkscrew
+
 Corkscrew is a build tool for Clojure. It's definitely very
 proof-of-concept at this stage.
 
@@ -5,7 +7,7 @@ Shell script usage:
 
   $ corkscrew build [project-dir] [output-jar]
   $ corkscrew deps [project-dir]
-  $ corkscrew run [project-dir-or-jar]
+  $ corkscrew install [project-dir-or-jar]
   $ corkscrew repl [project-dir-or-jar]
 
 Nice to have:

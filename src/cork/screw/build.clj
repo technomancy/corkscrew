@@ -3,10 +3,10 @@
 ;;  (:use [cork.screw.deps :as deps])
   (:gen-class))
 
-;; (defn build-package [package]
-;;   (if (empty? (.listFiles (java.io.File. (str (:root package) "/classes/"))))
-;;     (unpack-package-dependencies package))
-;;   (compile (:main package))
+;; (defn build-project [project]
+;;   (if (empty? (.listFiles (java.io.File. (str (:root project) "/classes/"))))
+;;     (unpack-project-dependencies project))
+;;   (compile (:main project))
 ;;   (jar-classes))
 
 (defn -main [])
