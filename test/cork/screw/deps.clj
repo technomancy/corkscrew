@@ -28,11 +28,17 @@
 (use-fixtures :each cleanup-dirs)
 
 (deftest test-handle-svn-deps
-  (let [project (sample-project ["clojure" "r1343" :svn
-                                 "http://clojure.googlecode.com/svn/trunk"])]
-    (handle-project-dependencies project)))
+  (let [project (sample-project
+                 ["clojure" "r1343" :svn
+                  "http://clojure.googlecode.com/svn/trunk"])]
+    (handle-project-dependencies project)
+    ;; TODO: ensure the files exist on disk
+    ))
 
 (deftest test-handle-http-deps
-  (let [project (sample-project ["rome" "1.0" :http
-                                 "https://rome.dev.java.net/dist/rome-1.0.jar"])]
-    (handle-project-dependencies project)))
+  (let [project (sample-project
+                 ["rome" "1.0" :http
+                  "https://rome.dev.java.net/dist/rome-1.0.jar"])]
+    (handle-project-dependencies project)
+    ;; TODO: ensure the files exist on disk
+    ))

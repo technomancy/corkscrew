@@ -12,7 +12,8 @@
 
 (defn compile-checkout [root]
   (println "Compiling: " root)
-  (with-sh-dir root "ant"))
+  ;; TODO: handle non-ant projects
+  (with-sh-dir root (sh "ant")))
 
 (defn handle-project-dependencies [project]
   (doseq [dependency (:dependencies project)]
