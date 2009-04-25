@@ -20,4 +20,4 @@
 (defmethod cork.screw.deps/unpack-dependency :svn
   [[name version type url] root]
   (extract-jar (file-name-for name url)
-               (str root "/dependencies/")))
+               (str root "/target/dependency/")))

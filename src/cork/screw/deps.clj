@@ -22,7 +22,7 @@
     (unpack-dependency dependency (:root project))))
 
 (defn -main
-  "Fetch and unpack all the dependencies into dependencies/."
+  "Fetch and unpack all the dependencies."
   ([] (-main "."))
   ([target-dir]
      (handle-project-dependencies

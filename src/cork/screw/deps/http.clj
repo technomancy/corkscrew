@@ -31,4 +31,4 @@
 (defmethod cork.screw.deps/unpack-dependency :http
   [[name version type url] root]
   (extract-jar (file-name-for name url)
-               (str root "/dependencies/")))
+               (str root "/target/dependency/")))

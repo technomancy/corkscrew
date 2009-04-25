@@ -5,7 +5,7 @@
 PROJECT_ROOT="$2" || "$PWD"
 
 if [ -r "bin/corkscrew" ]; then
-  CLASSPATH=src/:dependencies/
+  CLASSPATH=classes/:dependencies/
 else
   CLASSPATH=$HOME/.corkscrew/corkscrew.jar
 fi
