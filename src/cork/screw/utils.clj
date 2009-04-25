@@ -1,4 +1,5 @@
 (ns cork.screw.utils
+  (:use [clojure.contrib.java-utils :only [file]])
   (:import (java.util.jar JarFile)))
 
 (defn delete-file

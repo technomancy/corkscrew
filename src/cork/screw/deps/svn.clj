@@ -1,7 +1,7 @@
 (ns cork.screw.deps.svn
-  (:use [clojure.contrib shell-out]
-        [clojure.contrib java-utils :only [file]]
-        [cork.screw utils :only [extract-jar]]))
+  (:use [clojure.contrib.shell-out]
+        [clojure.contrib.java-utils :only [file]]
+        [cork.screw.utils :only [extract-jar]]))
 
 (defn file-name-for [name version]
   (str cork.screw.deps/corkscrew-dir

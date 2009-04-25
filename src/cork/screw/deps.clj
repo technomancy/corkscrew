@@ -5,7 +5,7 @@
   (:gen-class))
 
 (def *force-fetch* false)
-;; (def corkscrew-dir (str (System/getProperty "user.home") "/.corkscrew/"))
+(def corkscrew-dir (str (System/getProperty "user.home") "/.corkscrew/"))
 
 (defmulti fetch-dependency #(% 2))
 (defmulti unpack-dependency (fn [dep root] (dep 2)))
@@ -28,7 +28,8 @@
      (handle-project-dependencies
       (read-project (str target-dir "/project.clj")))))
 
-;; (require 'cork.screw.deps.svn)
+(require 'cork.screw.deps.http)
+(require 'cork.screw.deps.svn)
 ;; (require 'cork.screw.deps.git)
 ;; (require 'cork.screw.deps.maven)
-;; (require 'cork.screw.deps.http)
+

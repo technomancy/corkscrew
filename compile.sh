@@ -9,4 +9,4 @@ unzip -u ../clojure/clojure.jar -d dependencies/
 unzip -u ../clojure-contrib/clojure-contrib.jar -d dependencies/
 
 java -cp src/:classes/:dependencies clojure.main -e \
-    "(compile 'cork.screw.build) (compile 'cork.screw.deps) (compile 'cork.screw.run)"
+    "(compile 'cork.screw.build) (compile 'cork.screw.deps)"
