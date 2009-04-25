@@ -3,8 +3,12 @@
 # It turns out I'm not really any good at shell scripting.
 
 PROJECT_ROOT="$2" || "$PWD"
-CORKSCREW_ROOT="$HOME/src/corkscrew"
-CLASSPATH="$CORKSCREW_ROOT/dependencies/:$CORKSCREW_ROOT/classes/"
+
+if [ -r "bin/corkscrew" ]; then
+  CLASSPATH=src/:dependencies/
+else
+  CLASSPATH=$HOME/.corkscrew/corkscrew.jar
+fi
 
 case $1 in
     build)   CLASS=cork.screw.build;;
