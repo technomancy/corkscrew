@@ -5,7 +5,7 @@
 PROJECT_ROOT="$2" || "$PWD"
 
 if [ -r "bin/corkscrew" ]; then
-  CLASSPATH=classes/:dependencies/
+  CLASSPATH=target/classes/:target/dependency/
 else
   CLASSPATH=$HOME/.corkscrew/corkscrew.jar
 fi
@@ -14,8 +14,17 @@ case $1 in
     build)   CLASS=cork.screw.build;;
     deps)    CLASS=cork.screw.deps;;
     install) CLASS=cork.screw.install;;
-    repl)    CLASS=clojure.lang.Repl;;
+    repl)
+        CLASSPATH="src/:target/classes/:target/dependency/:$CLASSPATH"
+        cd "$PROJECT_ROOT"
+
+        if which rlwrap > /dev/null; then
+            exec rlwrap java -cp $CLASSPATH clojure.main
+        else
+            exec java -cp $CLASSPATH clojure.main
+        fi
+        ;;
     # else?
 esac
 
-exec java -cp $CLASSPATH $CLASS ${@:2}
+exec java -cp "$CLASSPATH" $CLASS ${@:2}
