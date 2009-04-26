@@ -14,7 +14,7 @@ java -cp src/:target/classes/:target/dependency -Dclojure.compile.path=target/cl
 mkdir -p target/jar
 cp -r target/dependency/* target/jar
 cp -r target/classes/* target/jar
-jar cf target/corkscrew.jar target/jar
+jar cf target/corkscrew.jar -C target/jar .
 
 mkdir -p $HOME/.corkscrew
 cp target/corkscrew.jar $HOME/.corkscrew
