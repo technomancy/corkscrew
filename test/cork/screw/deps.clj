@@ -1,7 +1,8 @@
 (ns cork.screw.deps
   (:use [cork.screw deps]
         [cork.screw utils]
-        :reload-all)
+        ;;:reload-all
+        )
   (:use [clojure.contrib test-is]))
 
 (require 'cork.screw.deps.svn)
@@ -18,12 +19,11 @@
    :dependencies deps})
 
 (defn cleanup-dirs [f]
-  ;; (.mkdirs (java.io.File. corkscrew-dir))
-  ;; (.mkdirs (java.io.File. project-dir))
+  (.mkdirs (java.io.File. corkscrew-dir))
+  (.mkdirs (java.io.File. project-dir))
   (f)
-  ;; (delete-file-recursively corkscrew-dir)
-  ;; (delete-file-recursively project-dir)
-  )
+  (delete-file-recursively corkscrew-dir)
+  (delete-file-recursively project-dir))
 
 (use-fixtures :each cleanup-dirs)
 
@@ -32,8 +32,7 @@
                  ["clojure" "r1343" :svn
                   "http://clojure.googlecode.com/svn/trunk"])]
     (handle-project-dependencies project)
-    ;; TODO: ensure the files exist on disk
-    ))
+    (is (= () (dir-seq project-dir)))))
 
 (deftest test-handle-http-deps
   (let [project (sample-project
