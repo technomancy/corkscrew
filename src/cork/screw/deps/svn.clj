@@ -5,12 +5,11 @@
 
 (defmethod cork.screw.deps/fetch-dependency :svn
   [[name version type url]]
-  (let [jar-file (file (str cork.screw.deps/corkscrew-dir
-                            "svn/" name "/" version "/"))]
+  (let [dir (file (str cork.screw.deps/corkscrew-dir
+                       "svn/" name "/" version "/"))]
     (when (or cork.screw.deps/*force-fetch*
-              (not (.exists jar-file)))
-      (.mkdirs (.getParentFile jar-file))
-      (with-sh-dir (.getParent jar-file)
-                   (sh "svn" "checkout" "-r" version url ".")
-                   (cork.screw.deps/compile-checkout (.getParent jar-file)
-                                                     name)))))
+              (not (.exists dir)))
+      (.mkdirs (.getParentFile dir))
+      (with-sh-dir (.getParent dir)
+                   (sh "svn" "checkout" "-r" version url ".")))
+    (cork.screw.deps/compile-checkout dir name)))

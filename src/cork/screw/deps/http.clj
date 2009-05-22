@@ -18,10 +18,6 @@
     (when (or cork.screw.deps/*force-fetch*
               (not (.exists (java.io.File. filename))))
       (.mkdirs (.getParentFile (java.io.File. filename)))
-      (with-open [in-stream (.openStream (java.net.URL. url))
-                  out-stream (java.io.FileOutputStream. filename)]
-        (loop [input (.read in-stream)]
-          (when (not (= input -1))
-            (.write out-stream input)
-            (recur (.read in-stream))))))
+      (copy-between-streams (.openStream (java.net.URL. url))
+                            (java.io.FileOutputStream. filename)))
     (java.io.File. filename)))

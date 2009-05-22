@@ -4,10 +4,11 @@
 
 PROJECT_ROOT="$2" || "$PWD"
 
+# Support running from the corkscrew source checkout during development
 if [ -r "bin/corkscrew" ]; then
   CLASSPATH=target/classes/:target/dependency/
 else
-  CLASSPATH=$HOME/.corkscrew/corkscrew.jar
+  CLASSPATH="$HOME/.corkscrew/corkscrew.jar"
 fi
 
 case $1 in
@@ -19,12 +20,12 @@ case $1 in
         cd "$PROJECT_ROOT"
 
         if which rlwrap > /dev/null; then
-            exec rlwrap java -cp $CLASSPATH clojure.main
+            exec rlwrap java -cp "$CLASSPATH" clojure.main
         else
-            exec java -cp $CLASSPATH clojure.main
+            exec java -cp "$CLASSPATH" clojure.main
         fi
         ;;
-    # else?
+    # else help?
 esac
 
 exec java -cp "$CLASSPATH" $CLASS ${@:2}

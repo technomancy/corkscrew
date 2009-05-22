@@ -1,6 +1,5 @@
 (ns cork.screw.deps
-  (:use [cork.screw]
-        [cork.screw.utils])
+  (:use [cork.screw.utils])
   (:use [clojure.contrib.shell-out :only [with-sh-dir sh]]
         [clojure.contrib.java-utils :only [file]])
   (:gen-class))
@@ -18,17 +17,20 @@ pointing to either the jar or the source root."
   (with-sh-dir root
                (cond
                  (.exists (file root "build.xml"))
-                 (do (sh "ant") (file root (str name ".jar")))
+                 (do (sh "ant")
+                     (file root (str name ".jar")))
 
                  (.exists (file root "pom.xml"))
-                 (do (sh "mvn compile") (file root (str "target/" name ".jar")))
+                 (do (sh "mvn compile")
+                     (file root (str "target/" name ".jar")))
 
                  true
                  (file root "src/"))))
 
 (defn unpack-dependency [dep-file root]
+  (println "Unpacking: " dep-file)
   (if (.isDirectory dep-file)
-    (sh "cp" "-r" dep-file root)
+    (sh "cp" "-r" dep-file root) ;; TODO: write this in Clojure
     (extract-jar dep-file root)))
 
 (defn handle-project-dependencies [project]

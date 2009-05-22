@@ -19,6 +19,19 @@
           (delete-file-recursively child)))
     (delete-file f)))
 
+(defn copy-between-streams
+  "Copy all data between in and out."
+  [in out]
+  (try
+   (let [bytes (make-array Byte/TYPE 1000)]
+     (loop [byte-count (.read in bytes)]
+       (when (not= -1 byte-count)
+         (.write out bytes 0 byte-count)
+         (recur (.read in bytes)))))
+   (finally
+    (.close in)
+    (.close out))))
+
 (defn extract-jar
   "Unpacks jar-file into target-dir. jar-file can be a JarFile
   instance or a path to a jar file on disk."
@@ -28,8 +41,7 @@
               jar-file
               (JarFile. jar-file true))
         entries (enumeration-seq (.entries jar))
-        target-file #(str target-dir "/" (.getName %))
-        bytes (make-array Byte/TYPE 1000)]
+        target-file #(str target-dir "/" (.getName %))]
     ;; First make all the directories
     (doseq [entry entries :when (.isDirectory entry)]
       (println "Making dir: " (target-file entry))
@@ -37,7 +49,12 @@
     ;; Then write the files
     (doseq [entry entries :when (not (.isDirectory entry))]
       (println "Writing: " (target-file entry))
-      (with-open [in-stream (.getInputStream jar entry)
-                  out-stream (java.io.FileOutputStream. (target-file entry))]
-        (while (not= (.read in-stream bytes) -1)
-          (.write out-stream bytes))))))
+      (copy-between-streams (.getInputStream jar entry)
+                            (java.io.FileOutputStream. (target-file entry))))))
+
+(defn read-project
+  "Given a filename for a project, returns a map of metadata for it."
+  [filename]
+  (let [file (java.io.File. filename)]
+    (assoc (read-string (slurp (.getAbsolutePath file)))
+      :root (.getParent file))))
