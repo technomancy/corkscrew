@@ -11,5 +11,5 @@
               (not (.exists dir)))
       (.mkdirs (.getParentFile dir))
       (with-sh-dir (.getParent dir)
-                   (sh "svn" "checkout" "-r" version url ".")))
-    (cork.screw.deps/compile-checkout dir name)))
+                   (sh "svn" "checkout" "-r" version url version)))
+    dir))

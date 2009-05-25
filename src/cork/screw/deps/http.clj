@@ -14,10 +14,10 @@
   [[name version type url]]
   (let [filename (str cork.screw.deps/corkscrew-dir
                       "/http/" name "/" (sha1-hex url))
-        bytes (make-array Byte/TYPE 1000)]
+        jar-file (java.io.File. filename)]
     (when (or cork.screw.deps/*force-fetch*
-              (not (.exists (java.io.File. filename))))
-      (.mkdirs (.getParentFile (java.io.File. filename)))
+              (not (.exists jar-file)))
+      (.mkdirs (.getParentFile jar-file))
       (copy-between-streams (.openStream (java.net.URL. url))
                             (java.io.FileOutputStream. filename)))
-    (java.io.File. filename)))
+    jar-file))

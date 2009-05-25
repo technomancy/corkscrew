@@ -36,7 +36,7 @@
   "Unpacks jar-file into target-dir. jar-file can be a JarFile
   instance or a path to a jar file on disk."
   [jar-file target-dir]
-  (println jar-file)
+  (println "Extracting: " jar-file)
   (let [jar (if (isa? jar-file JarFile)
               jar-file
               (JarFile. jar-file true))

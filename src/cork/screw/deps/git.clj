@@ -4,11 +4,11 @@
 
 (defmethod cork.screw.deps/fetch-dependency :git
   [[name version type url]]
-  (let [filename (str cork.screw.deps/corkscrew-dir "/git/" name)]
+  (let [dir (str cork.screw.deps/corkscrew-dir "/git/" name)]
     (when (or cork.screw.deps/*force-fetch*
-              (not (.exists (java.io.File. filename))))
-      (.mkdirs (java.io.File. filename))
-      (with-sh-dir filename
+              (not (.exists (java.io.File. dir))))
+      (.mkdirs (java.io.File. dir))
+      (with-sh-dir dir
                    (sh "git" "clone" url)
-                   (sh "git" "checkout" version)
-                   (cork.screw.deps/compile-checkout filename)))))
+                   (sh "git" "checkout" version)))
+    dir))
