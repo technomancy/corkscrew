@@ -1,44 +1,42 @@
 (ns cork.screw.deps.maven
-  (:import [org.apache.maven.project MavenProject]
-           [org.apache.maven.model Build Dependency]
-           [org.apache.maven.artifact Artifact]
-           [org.apache.maven.plugin.dependency UnpackDependenciesMojo]))
+  (:require [clojure.xml :as xml])
+  (:use [clojure.contrib.duck-streams :only [spit writer]]))
 
-(def clojure-pom (doto (MavenProject.)
-                   (.setArtifactId "clojure-pom")
-                   (.setGroupId "org.clojure")
-                   (.setVersion "1.0-SNAPSHOT")))
+(defn maven-dep? [dep]
+  (= :maven (dep 2)))
 
-(defn dependency-list [dependencies]
-  (let [deps (java.util.LinkedList.)]
-    (doseq [dependency dependencies]
-      (.add deps (doto (Dependency.)
-                 (.setVersion (:version dependency))
-                 (.setGroupId (:group dependency))
-                 (.setArtifactId (:name dependency)))))
-    deps))
+(defn dependency-xml [[artifact version _ group]]
+  {:tag :dependency :content [{:tag :artifactId :content [artifact]}
+                              {:tag :groupId :content [group]}
+                              {:tag :version :content [version]}]})
 
-(defn create-project-model [project]
-  (let [project-model (doto (MavenProject.)
-                        (.setName (:name project))
-                        (.setArtifactId (:name project))
-                        (.setGroupId (or (:group project) (:name project)))
-                        (.setVersion (:version project))
-                        (.setModelVersion "4.0.0")
-                        (.setParent clojure-pom))]
+(defn pom-for [name version group dependencies]
+  {:tag :project
+   :attrs {:xmlns "http://maven.apache.org/POM/4.0.0"
+           :xmlns:xsi "http://www.w3.org/2001/XMLSchema-instance"
+           :xsi:schemaLocation "http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"}
+   :content [{:tag :modelVersion :content ["4.0.0"]}
+             {:tag :parent
+              :content [{:tag :artifactId :content ["clojure-pom"]}
+                        {:tag :groupId :content ["org.clojure"]}
+                        {:tag :version :content ["1.0-SNAPSHOT"]}]}
+             {:tag :artifactId :content [name]}
+             {:tag :name :content [name]}
+             {:tag :groupId :content [group]}
+             {:tag :version :content [version]}
+             {:tag :dependencies
+              :content (map dependency-xml dependencies)}]})
 
-    (.setBuild project-model (doto (Build.)
-                               (.setOutputDirectory (str (:root project)
-                                                         "/target"))
-                               (.setSourceDirectory (str (:root project)
-                                                         "/src"))))
-    (.setDependencies project-model (dependency-list (:depdedencies project)))))
+(defn write-pom [project]
+  (binding [*out* (writer (str "/tmp/clojure-" (:name project)
+                               "-pom.xml"))]
+    (xml/emit (pom-for (:name project)
+                       (:version project)
+                       (or (:group project) (:name project))
+                       (filter maven-dep? (:dependencies project))))))
 
 (defn handle-dependencies [project]
-  (let [unpacker (UnpackDependenciesMojo.)]
-    ;; TODO: no method to set project. bugger!
-    (.setProject unpacker (create-project-model project))
-    (.execute unpacker)))
+  )
 
 ;; (handle-dependencies {:name "sample" :version "1.0.0" :root "/tmp/sample"
 ;;                       :dependencies [{:name "clojure-contrib" :group "org.clojure"

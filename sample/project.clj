@@ -1,8 +1,7 @@
 {:name "my-sample"
  :version "1.0"
  :main 'my-sample
- :dependencies [["clojure" "r1343" :svn
-                 "http://clojure.googlecode.com/svn/trunk"]
+ :dependencies [["clojure" "1.0.0" :maven "org.clojure"]
                 ["clojure-contrib" "r663" :svn
                   "http://clojure-contrib.googlecode.com/svn/trunk"]
                 ["rome" "1.0" :http
