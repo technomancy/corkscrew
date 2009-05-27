@@ -30,6 +30,8 @@ HTTP, or checkouts of projects kept in Git or Subversion repositories.
 
 TODO: Dependencies on Maven projects are not yet implemented.
 
+TODO: Dependencies on projects that require AOT are not yet implemented.
+
 ## Usage
 
     $ corkscrew deps [project-dir]
