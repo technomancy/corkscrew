@@ -1,6 +1,7 @@
 (ns cork.screw.deps.maven
   (:require [clojure.xml :as xml])
-  (:use [clojure.contrib.duck-streams :only [spit writer]]))
+  (:use [clojure.contrib.duck-streams :only [spit writer]]
+        [clojure.contrib.shell-out :only [with-sh-dir sh]]))
 
 (defn maven-dep? [dep]
   (= :maven (dep 2)))
@@ -28,18 +29,17 @@
               :content (map dependency-xml dependencies)}]})
 
 (defn write-pom [project]
-  (binding [*out* (writer (str "/tmp/clojure-" (:name project)
-                               "-pom.xml"))]
+  (binding [*out* (writer (str (:root project) "/pom.xml"))
+            println print]
     (xml/emit (pom-for (:name project)
                        (:version project)
                        (or (:group project) (:name project))
-                       (filter maven-dep? (:dependencies project))))))
+                       (filter maven-dep? (:dependencies project))))
+    (flush)))
 
 (defn handle-dependencies [project]
-  )
-
-;; (handle-dependencies {:name "sample" :version "1.0.0" :root "/tmp/sample"
-;;                       :dependencies [{:name "clojure-contrib" :group "org.clojure"
-;;                                       :version "1.0-SNAPSHOT"}
-;;                                      {:name "rome" :group "rome" :version "1.0"}
-;;                                      {:name "tagsoup" :group "tagsoup" :version "1.2"}]})
+  (try
+   (write-pom project)
+   (with-sh-dir (:root project)
+                (sh "mvn" "process-resources"))
+   (finally (.delete (java.io.File. (str (:root project) "/pom.xml"))))))
