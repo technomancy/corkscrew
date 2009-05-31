@@ -35,7 +35,7 @@
     (xml/emit (pom-for (:name project)
                        (:version project)
                        (or (:group project) (:name project))
-                       (filter maven-dep? (:dependencies project))))
+                       (:dependencies project)))
     (flush)))
 
 (defn handle-dependencies [project]

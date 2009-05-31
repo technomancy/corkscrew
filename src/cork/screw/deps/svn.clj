@@ -1,7 +1,6 @@
 (ns cork.screw.deps.svn
   (:use [clojure.contrib.shell-out]
-        [clojure.contrib.java-utils :only [file]]
-        [cork.screw.utils :only [extract-jar]]))
+        [clojure.contrib.java-utils :only [file]]))
 
 (defmethod cork.screw.deps/fetch-source-dependency :svn
   [[name version type url]]
