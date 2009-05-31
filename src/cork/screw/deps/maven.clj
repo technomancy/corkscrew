@@ -5,9 +5,9 @@
 
 (defn dependency-xml
   "A tree structure (for XML conversion) representing a single dependency."
-  [[artifact version _ group]]
+  [[artifact version & [group]]]
   {:tag :dependency :content [{:tag :artifactId :content [artifact]}
-                              {:tag :groupId :content [group]}
+                              {:tag :groupId :content [(or group artifact)]}
                               {:tag :version :content [version]}]})
 
 (defn pom-for
