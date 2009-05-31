@@ -3,7 +3,7 @@
         [clojure.contrib.java-utils :only [file]]
         [cork.screw.utils :only [extract-jar]]))
 
-(defmethod cork.screw.deps/fetch-dependency :svn
+(defmethod cork.screw.deps/fetch-source-dependency :svn
   [[name version type url]]
   (let [dir (file (str cork.screw.deps/corkscrew-dir
                        "svn/" name "/" version "/"))]

@@ -14,23 +14,19 @@ Here's a sample project file:
     {:name "my-sample"
      :version "1.0"
      :main 'my-sample
-     :dependencies [["clojure" "r1343" :svn
-                     "http://clojure.googlecode.com/svn/trunk"]
-                    ["clojure-contrib" "r663" :svn
-                      "http://clojure-contrib.googlecode.com/svn/trunk"]
-                    ["rome" "1.0" :http
-                      "http://rome.dev.java.net/dist/rome-1.0.jar"]
-                    ["enlive" "95b2558943f50bb9962fe7d500ede353f1b578f0"
-                     :git "git://github.com/cgrand/enlive.git"]
-                    ["tagsoup" "1.2" :maven "http://mvnrepository.com"]
-                    ["jdom" "1.1" :bundled "jars/jdom-1.1.jar"]]}
+     :dependencies [["clojure" "1.0.0" "org.clojure"]
+                    ["rome" "1.0"]
+                    ["tagsoup" "1.2"]]
+     :source-dependencies [["clojure-contrib" "r663" :svn
+                            "http://clojure-contrib.googlecode.com/svn/trunk"]
+                           ["enlive" "95b2558943f50bb9962fe7d500ede353f1b578f0"
+                            :git "git://github.com/cgrand/enlive.git"]]}
 
-Dependencies can either be on Maven projects, jar files fetched over
-HTTP, or checkouts of projects kept in Git or Subversion repositories.
+Dependencies refer to projects hosted in Maven repositories. You
+provide the name and version, and optionally the group ID, though this
+will default to the name if not provided.
 
-TODO: Dependencies on Maven projects are not yet implemented.
-
-TODO: Dependencies on projects that require AOT are not yet implemented.
+TODO: Dependencies on source projects that require AOT are not implemented.
 
 ## Usage
 

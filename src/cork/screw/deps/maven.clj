@@ -3,15 +3,16 @@
   (:use [clojure.contrib.duck-streams :only [spit writer]]
         [clojure.contrib.shell-out :only [with-sh-dir sh]]))
 
-(defn maven-dep? [dep]
-  (= :maven (dep 2)))
-
-(defn dependency-xml [[artifact version _ group]]
+(defn dependency-xml
+  "A tree structure (for XML conversion) representing a single dependency."
+  [[artifact version _ group]]
   {:tag :dependency :content [{:tag :artifactId :content [artifact]}
                               {:tag :groupId :content [group]}
                               {:tag :version :content [version]}]})
 
-(defn pom-for [name version group dependencies]
+(defn pom-for
+  "A tree structure representing the project's POM for XML conversion."
+  [name version group dependencies]
   {:tag :project
    :attrs {:xmlns "http://maven.apache.org/POM/4.0.0"
            :xmlns:xsi "http://www.w3.org/2001/XMLSchema-instance"

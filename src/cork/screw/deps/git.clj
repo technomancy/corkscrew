@@ -2,7 +2,7 @@
   (:use [clojure.contrib.shell-out]
         [cork.screw utils]))
 
-(defmethod cork.screw.deps/fetch-dependency :git
+(defmethod cork.screw.deps/fetch-source-dependency :git
   [[name version type url]]
   (let [dir (str cork.screw.deps/corkscrew-dir "/git/" name)]
     (when (or cork.screw.deps/*force-fetch*

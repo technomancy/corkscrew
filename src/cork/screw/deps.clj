@@ -1,34 +1,31 @@
 (ns cork.screw.deps
   (:require [cork.screw.deps.maven :as maven])
   (:use [cork.screw.utils])
-  (:use [clojure.contrib.shell-out :only [sh]])
+  (:use [clojure.contrib.shell-out :only [sh]]
+        [clojure.contrib.java-utils :only [file]])
   (:gen-class))
 
 (def *force-fetch* false)
 (def corkscrew-dir (str (System/getProperty "user.home") "/.corkscrew/"))
 
-(defmulti fetch-dependency
+(defmulti fetch-source-dependency
   "Takes a list of name, version, type, and url of a dependency. Downloads
  it if necessary and returns a string of where it exists on disk. The string
 could refer to a jar file or a directory of the unpacked project."
   #(% 2))
 
-(defn unpack-dependency [dep-file root]
-  (println "Unpacking: " dep-file)
-  (if (.isDirectory dep-file)
-    ;; TODO: need to copy src/* instead
-    (sh "cp" "-r" (str dep-file "/src/") root) ;; TODO: write cp -r in Clojure
-    (extract-jar dep-file root)))
-
-(defn non-maven-dep? [dep]
-  (not= :maven (dep 2)))
+(defn copy-dependency [dep-file root]
+  (println "Copying source for: " dep-file)
+  ;; TODO: write cp -r in Clojure
+  (doseq [dir (.list (file "/src/" dep-file))]
+    (sh "cp" "-r" dir root)))
 
 (defn handle-project-dependencies [project]
-  (doseq [dependency (filter non-maven-dep? (:dependencies project))]
+  (maven/handle-dependencies project)
+  (doseq [dependency (:source-dependencies project)]
     (println "Handling: " dependency)
-    (unpack-dependency (fetch-dependency dependency)
-                       (str (:root project) "/target/dependency/")))
-  (maven/handle-dependencies project))
+    (copy-dependency (fetch-source-dependency dependency)
+                       (str (:root project) "/target/dependency/"))))
 
 (defn -main
   "Fetch and unpack all the dependencies."
