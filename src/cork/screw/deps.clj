@@ -34,7 +34,6 @@ could refer to a jar file or a directory of the unpacked project."
      (handle-project-dependencies
       (read-project (str target-dir "/project.clj")))))
 
-(require 'cork.screw.deps.http)
 (require 'cork.screw.deps.svn)
 (require 'cork.screw.deps.git)
 

@@ -32,26 +32,6 @@
     (.close in)
     (.close out))))
 
-(defn extract-jar
-  "Unpacks jar-file into target-dir. jar-file can be a JarFile
-  instance or a path to a jar file on disk."
-  [jar-file target-dir]
-  (println "Extracting: " jar-file)
-  (let [jar (if (isa? jar-file JarFile)
-              jar-file
-              (JarFile. jar-file true))
-        entries (enumeration-seq (.entries jar))
-        target-file #(str target-dir "/" (.getName %))]
-    ;; First make all the directories
-    (doseq [entry entries :when (.isDirectory entry)]
-      (println "Making dir: " (target-file entry))
-      (.mkdirs (java.io.File. (target-file entry))))
-    ;; Then write the files
-    (doseq [entry entries :when (not (.isDirectory entry))]
-      (println "Writing: " (target-file entry))
-      (copy-between-streams (.getInputStream jar entry)
-                            (java.io.FileOutputStream. (target-file entry))))))
-
 (defn read-project
   "Given a filename for a project, returns a map of metadata for it."
   [filename]
