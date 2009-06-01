@@ -13,10 +13,9 @@ Here's a sample project file:
 
     {:name "my-sample"
      :version "1.0"
-     :main 'my-sample
+     :namespaces '(my-sample)
      :dependencies [["clojure" "1.0.0" "org.clojure"]
-                    ["rome" "1.0"]
-                    ["tagsoup" "1.2"]]
+                    ["rome" "0.9"]]
      :source-dependencies [["clojure-contrib" "r663" :svn
                             "http://clojure-contrib.googlecode.com/svn/trunk"]
                            ["enlive" "95b2558943f50bb9962fe7d500ede353f1b578f0"
@@ -25,6 +24,10 @@ Here's a sample project file:
 Dependencies refer to projects hosted in Maven repositories. You
 provide the name and version, and optionally the group ID, though this
 will default to the name if not provided.
+
+You may also specify source dependencies on Clojure projects that are
+fetched directly from version-control repositories. Currently only
+Subversion and Git are supported, but it's easy to add others.
 
 TODO: Dependencies on source projects that require AOT are not implemented.
 
@@ -44,9 +47,9 @@ Starts a REPL with the project's classpath and dependencies set up.
 
     $ corkscrew build [project-dir] [output-jar]
 
-Compiles your source code into the classes/ directory. Creates a jar
-file containing bytecode. If your project is an application (has a
-"main" function, not a library), then this jar will be executable.
+Compiles your source code into the target/classes/ directory. Creates
+a jar file containing bytecode. If your project is an application (has
+a "main" function, not a library), then this jar will be executable.
 
     $ corkscrew build-standalone [project-dir] [output-jar]
 

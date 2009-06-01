@@ -1,6 +1,6 @@
 {:name "my-sample"
  :version "1.0"
- :main 'my-sample
+ :namespaces '(my-sample)
  :dependencies [["clojure" "1.0.0" "org.clojure"]
                 ;; group defaults to name
                 ["rome" "0.9"]]
