@@ -6,6 +6,7 @@ cd `dirname $0`
 
 # Replace ../clojure(-contrib)? with your clojure install location
 
+mkdir -p target/dependency
 unzip -u ../clojure/clojure.jar -d target/dependency/
 unzip -u ../clojure-contrib/clojure-contrib.jar -d target/dependency/
 mkdir -p target/classes

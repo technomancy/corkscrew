@@ -37,4 +37,4 @@
   [filename]
   (let [file (java.io.File. filename)]
     (assoc (read-string (slurp (.getAbsolutePath file)))
-      :root (.getParent file))))
+      :root (.getAbsolutePath (.getParentFile file)))))

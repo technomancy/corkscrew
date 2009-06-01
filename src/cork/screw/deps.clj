@@ -15,15 +15,17 @@ could refer to a jar file or a directory of the unpacked project."
   #(% 2))
 
 (defn copy-dependency [dep-file root]
-  (println "Copying source for: " dep-file)
+  (println "Copying source for:" dep-file)
   ;; TODO: write cp -r in Clojure
-  (doseq [dir (.list (file "/src/" dep-file))]
-    (sh "cp" "-r" dir root)))
+  (doseq [dir (.listFiles (file dep-file "src/"))]
+    (sh "cp" "-r" (.getAbsolutePath dir) root)))
 
 (defn handle-project-dependencies [project]
+  (println "Handling dependencies for" (:name project) "in" (:root project))
+  (.mkdirs (file (:root project) "target" "dependency"))
   (maven/handle-dependencies project)
-  (doseq [dependency (:source-dependencies project)]
-    (println "Handling: " dependency)
+  (doseq [dependency (or (:source-dependencies project) [])]
+    (println "Handling source:" dependency)
     (copy-dependency (fetch-source-dependency dependency)
                        (str (:root project) "/target/dependency/"))))
 
