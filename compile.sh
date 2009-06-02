@@ -2,25 +2,18 @@
 
 cd `dirname $0`
 
-# TODO: replace this with a pom file?
+mvn process-resources assembly:assembly
 
-# Replace ../clojure(-contrib)? with your clojure install location
-
-mkdir -p target/dependency
-unzip -u ../clojure/clojure.jar -d target/dependency/
-unzip -u ../clojure-contrib/clojure-contrib.jar -d target/dependency/
-mkdir -p target/classes
-
-java -cp src/:target/classes/:target/dependency -Dclojure.compile.path=target/classes \
- clojure.main -e "(compile 'cork.screw.deps)"
-
-mkdir -p target/jar
-cp -r target/dependency/* target/jar
-cp -r target/classes/* target/jar
-jar cf target/corkscrew.jar -C target/jar .
-
+# Installing jar file
 mkdir -p $HOME/.corkscrew
-cp target/corkscrew.jar $HOME/.corkscrew
-
+rm $HOME/.corkscrew/corkscrew.jar
+cp target/corkscrew*with-dependencies.jar $HOME/.corkscrew/corkscrew.jar
 echo "Corkscrew compiled and installed in ~/.corkscrew."
-echo "To use it, copy bin/corkscrew to your path."
+
+# Installing shell script
+if [ -d $HOME/bin ]; then
+  cp bin/corkscrew "$HOME/bin"
+  echo "The shell script is installed in $HOME/bin/corkscrew."
+else
+  echo "To use it, copy bin/corkscrew to your path."
+fi

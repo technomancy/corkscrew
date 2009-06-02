@@ -1,7 +1,8 @@
 (ns cork.screw.deps.maven
   (:require [clojure.xml :as xml])
+  ;; (:import [org.apache.maven.cli MavenCli])
   (:use [clojure.contrib.duck-streams :only [spit writer]]
-        [clojure.contrib.shell-out :only [with-sh-dir sh]]))
+        [clojure.contrib.shell-out :only [sh]]))
 
 (defn dependency-xml
   "A tree structure (for XML conversion) representing a single dependency."
@@ -40,10 +41,15 @@
     (xml/emit (pom-for project))
     (flush)))
 
+;; TODO: Shelling out to mvn is laaame. We should eventually be able
+;; to call the Maven API from Java, possibly by constructing a
+;; MavenCli if all else fails.
 (defn handle-dependencies [project]
   (when-not (empty? (:dependencies project))
     (try
      (write-pom project)
-     (with-sh-dir (:root project)
-                  (sh "mvn" "process-resources"))
+     (sh "mvn" "-f" (str (:root project) "/pom.xml") "process-resources")
+     ;; (MavenCli/main (make-array String "-f" (str (:root project) "/pom.xml")
+     ;;                            "process-resources"))
+     ;; TODO: move existing pom.xml out of the way if applicable
      (finally (.delete (java.io.File. (str (:root project) "/pom.xml")))))))
