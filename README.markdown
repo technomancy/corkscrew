@@ -7,6 +7,9 @@ proof-of-concept at this stage. You define a project.clj file in your
 project root, and Corkscrew will provide you with tools to build and
 manage your project.
 
+It currently requires that Maven be installed to work. This
+requirement should be removed in future versions.
+
 ## Project File
 
 Here's a sample project file:
@@ -30,6 +33,10 @@ fetched directly from version-control repositories. Currently only
 Subversion and Git are supported, but it's easy to add others.
 
 TODO: Dependencies on source projects that require AOT are not implemented.
+
+## Install
+
+Running the "install" script should compile Corkscrew and install it.
 
 ## Usage
 
