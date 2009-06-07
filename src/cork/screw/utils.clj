@@ -20,6 +20,19 @@
           (delete-file-recursively child)))
     (delete-file f)))
 
+(defn copy-file
+  "Recursively copy file or directory source to target. Both arguments
+  may be java.io.Files or strings."
+  [source target]
+  ;; TODO: preserve permissions?
+  (let [source (file source)
+        target (file target)]
+    (if (.isDirectory source)
+      (do (.mkdirs target)
+          (doseq [child (.listFiles source)]
+            (copy-file child (file target (.getName child)))))
+      (copy source target))))
+
 (defn read-project
   "Given a filename for a project, returns a map of metadata for it."
   [project-file]
