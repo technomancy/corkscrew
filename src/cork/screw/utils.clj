@@ -1,6 +1,7 @@
 (ns cork.screw.utils
   (:use [clojure.contrib.java-utils :only [file]]
-        [clojure.contrib.seq-utils :only [flatten]])
+        [clojure.contrib.seq-utils :only [flatten]]
+        [clojure.contrib.duck-streams :only [copy]])
   (:import (java.util.jar JarFile)))
 
 (defn delete-file
@@ -19,22 +20,8 @@
           (delete-file-recursively child)))
     (delete-file f)))
 
-(defn copy-between-streams
-  "Copy all data between in and out."
-  [in out]
-  (try
-   (let [bytes (make-array Byte/TYPE 1000)]
-     (loop [byte-count (.read in bytes)]
-       (when (not= -1 byte-count)
-         (.write out bytes 0 byte-count)
-         (recur (.read in bytes)))))
-   (finally
-    (.close in)
-    (.close out))))
-
 (defn read-project
   "Given a filename for a project, returns a map of metadata for it."
-  [filename]
-  (let [file (java.io.File. filename)]
-    (assoc (read-string (slurp (.getAbsolutePath file)))
-      :root (.getAbsolutePath (.getParentFile file)))))
+  [project-file]
+  (assoc (read-string (slurp (.getAbsolutePath project-file)))
+    :root (.getAbsolutePath (.getParentFile project-file))))

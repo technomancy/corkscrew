@@ -6,7 +6,7 @@
   (:gen-class))
 
 (def *force-fetch* false)
-(def corkscrew-dir (str (System/getProperty "user.home") "/.corkscrew/"))
+(def corkscrew-dir (file (System/getProperty "user.home") ".corkscrew"))
 
 (defmulti fetch-source-dependency
   "Takes a list of name, version, type, and url of a dependency. Downloads
@@ -34,7 +34,7 @@ could refer to a jar file or a directory of the unpacked project."
   ([] (-main "."))
   ([target-dir]
      (handle-project-dependencies
-      (read-project (str target-dir "/project.clj")))))
+      (read-project (file target-dir "project.clj")))))
 
 (require 'cork.screw.deps.svn)
 (require 'cork.screw.deps.git)
