@@ -35,7 +35,16 @@
                {:tag :groupId :content [group]}
                {:tag :version :content [version]}
                {:tag :dependencies
-                :content (map dependency-xml dependencies)}]}))
+                :content (map dependency-xml dependencies)}
+               {:tag :repositories
+                :content [{:tag :repository
+                           :content [{:tag :id :content ["technomancy"]}
+                                     {:tag :url :content
+                                      ["http://repo.technomancy.us/maven2"]}]}
+                          {:tag :repository
+                           :content [{:tag :id :content ["central"]}
+                                     {:tag :url :content
+                                      ["http://repo1.maven.org/maven2"]}]}]}]}))
 
 (defn write-pom [project]
   (binding [*out* (writer (str (:root project) "/pom.xml"))
