@@ -2,6 +2,7 @@
   (:use [clojure.contrib shell-out java-utils]
         [cork.screw utils]))
 
+;; TODO: abstract things so code can be shared between VCSes
 (defmethod cork.screw.deps/fetch-source-dependency :git
   [[name version type url]]
   (let [git-dir (str cork.screw.deps/corkscrew-dir "/git/")

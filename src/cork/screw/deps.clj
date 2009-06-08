@@ -20,7 +20,8 @@ could refer to a jar file or a directory of the unpacked project."
   (maven/handle-dependencies project)
   (doseq [dependency (or (:source-dependencies project) [])]
     (println "Handling source:" dependency)
-    (copy-file (fetch-source-dependency dependency)
+    ;; TODO: option to AOT-compile source dependencies
+    (copy-file (file (fetch-source-dependency dependency) "src")
                (file (:root project) "target" "dependency"))))
 
 (defn -main

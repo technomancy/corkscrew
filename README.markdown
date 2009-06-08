@@ -25,12 +25,14 @@ Here's a sample project file:
                             :git "git://github.com/cgrand/enlive.git"]]}
 
 Dependencies refer to projects hosted in Maven repositories. You
-provide the name and version, and optionally the group ID, though this
-will default to the name if not provided.
+provide the name (aka artifactId) and version, and optionally the
+group ID, though this will default to the name if not provided.
 
 You may also specify source dependencies on Clojure projects that are
-fetched directly from version-control repositories. Currently only
-Subversion and Git are supported, but it's easy to add others.
+fetched directly from version-control repositories. You need to
+provide the name of the project, the version you want, the SCM it's
+managed with (currently only Subversion and Git are supported, but
+it's easy to add others), and the repository URL.
 
 TODO: Dependencies on source projects that require AOT are not implemented.
 
