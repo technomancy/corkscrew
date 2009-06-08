@@ -2,7 +2,9 @@
   (:require [clojure.xml :as xml])
   ;; (:import [org.apache.maven.cli MavenCli])
   (:use [clojure.contrib.duck-streams :only [spit writer]]
-        [clojure.contrib.shell-out :only [sh]]))
+        [clojure.contrib.shell-out :only [sh]]
+        [clojure.contrib.java-utils :only [file]]
+        [cork.screw.utils :only [with-preserving-file]]))
 
 (defn dependency-xml
   "A tree structure (for XML conversion) representing a single dependency."
@@ -46,10 +48,8 @@
 ;; MavenCli if all else fails.
 (defn handle-dependencies [project]
   (when-not (empty? (:dependencies project))
-    (try
-     (write-pom project)
-     (sh "mvn" "-f" (str (:root project) "/pom.xml") "process-resources")
-     ;; (MavenCli/main (make-array String "-f" (str (:root project) "/pom.xml")
-     ;;                            "process-resources"))
-     ;; TODO: move existing pom.xml out of the way if applicable
-     (finally (.delete (java.io.File. (str (:root project) "/pom.xml")))))))
+    (with-preserving-file (file (:root project) "pom.xml")
+      (write-pom project)
+      ;; (MavenCli/main (make-array String "-f" (str (:root project) "/pom.xml")
+      ;;                            "process-resources"))
+      (sh "mvn" "-f" (str (:root project) "/pom.xml") "process-resources"))))
