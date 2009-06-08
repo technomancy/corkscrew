@@ -21,6 +21,7 @@ could refer to a jar file or a directory of the unpacked project."
   (doseq [dependency (or (:source-dependencies project) [])]
     (println "Handling source:" dependency)
     ;; TODO: option to AOT-compile source dependencies
+    ;; TODO: report errors during checkout
     (copy-file (file (fetch-source-dependency dependency) "src")
                (file (:root project) "target" "dependency"))))
 

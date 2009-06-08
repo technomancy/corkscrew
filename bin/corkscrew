@@ -19,6 +19,7 @@ case $1 in
         CLASSPATH="src/:target/classes/:target/dependency/:$CLASSPATH"
         cd "$PROJECT_ROOT"
 
+        # TODO: require the project's namespaces
         if which rlwrap > /dev/null; then
             exec rlwrap java -cp "$CLASSPATH" clojure.main
         else
