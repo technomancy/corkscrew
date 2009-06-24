@@ -35,6 +35,8 @@ it's easy to add others), and the repository URL.
 
 TODO: Dependencies on source projects that require AOT are not implemented.
 
+TODO: Get clojure-pom etc in repo (or add repo.technomancy.us)
+
 ## Install
 
 Running the "install" script should compile Corkscrew and install it.
