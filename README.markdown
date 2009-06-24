@@ -7,7 +7,8 @@ proof-of-concept at this stage. You define a project.clj file in your
 project root, and Corkscrew will provide you with tools to build and
 manage your project.
 
-It currently requires that Maven be installed to work. This
+It currently requires that Maven be installed to work as well as
+[clojure-pom](http://github.com/dysinger/clojure-pom/tree/master). This
 requirement should be removed in future versions.
 
 ## Project File
