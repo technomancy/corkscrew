@@ -15,6 +15,7 @@ case $1 in
     build)   CLASS=cork.screw.build;;
     deps)    CLASS=cork.screw.deps;;
     install) CLASS=cork.screw.install;;
+    pom)     CLASS=cork.screw.pom;;
     repl)
         CLASSPATH="src/:target/classes/:target/dependency/:$CLASSPATH"
         cd "$PROJECT_ROOT"

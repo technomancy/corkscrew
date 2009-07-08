@@ -52,6 +52,10 @@ try to fetch them from the Internet.
 
 Starts a REPL with the project's classpath and dependencies set up.
 
+    $ corkscrew pom [project-dir]
+
+Write the pom.xml file to the project root. Intended for debugging.
+
 ## Planned Features
 
     $ corkscrew compile [project-dir] [output-jar]

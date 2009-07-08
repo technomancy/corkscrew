@@ -50,4 +50,4 @@
       (finally
        (if (.exists temp-file#)
          (copy-file temp-file# ~file-name)
-         (.delete (file ~file-name)))))))
+         (.delete (file temp-file#)))))))
