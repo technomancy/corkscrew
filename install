@@ -4,6 +4,11 @@ cd `dirname $0`
 
 mvn process-resources assembly:assembly
 
+if [ !$? ]; then
+    echo "Build failed."
+    exit 1
+fi
+
 # Installing jar file
 mkdir -p $HOME/.corkscrew
 rm $HOME/.corkscrew/corkscrew.jar

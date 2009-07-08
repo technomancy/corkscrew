@@ -7,8 +7,7 @@ proof-of-concept at this stage. You define a project.clj file in your
 project root, and Corkscrew will provide you with tools to build and
 manage your project.
 
-It currently requires that Maven be installed to work as well as
-[clojure-pom](http://github.com/dysinger/clojure-pom/tree/master). This
+It currently requires that Maven be installed to work. This
 requirement should be removed in future versions.
 
 ## Project File
@@ -55,7 +54,7 @@ Starts a REPL with the project's classpath and dependencies set up.
 
 ## Planned Features
 
-    $ corkscrew build [project-dir] [output-jar]
+    $ corkscrew compile [project-dir] [output-jar]
 
 Compiles your source code into the target/classes/ directory. Creates
 a jar file containing bytecode. If your project is an application (has
@@ -73,6 +72,12 @@ Installs the project's jar into your local maven repository.
     $ corkscrew publish [project-dir-or-jar] [repository]
 
 Uploads the jar and metadata to a remote repository.
+
+## Contributing
+
+Patches welcome; send pull requests or email to technomancy at
+gmail. In particular I want to remove the need for maven to run in a
+subprocess, but I can't make head or tail of its Java API.
 
 ## License
 
