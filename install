@@ -2,12 +2,9 @@
 
 cd `dirname $0`
 
-mvn process-resources assembly:assembly
+rm target/corkscrew*with-dependencies.jar 2> /dev/null
 
-if [ !$? ]; then
-    echo "Build failed."
-    exit 1
-fi
+mvn process-resources assembly:assembly || echo "Build failed." && exit 1
 
 # Installing jar file
 mkdir -p $HOME/.corkscrew
