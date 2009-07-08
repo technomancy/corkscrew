@@ -14,5 +14,7 @@
       (write-pom project)
       ;; (MavenCli/main (make-array String "-f" (str (:root project) "/pom.xml")
       ;;                            "process-resources"))
-      ;; TODO: need to report errors here.
-      (sh "mvn" "-f" (str (:root project) "/pom.xml") "process-resources"))))
+      (let [result (sh "mvn" "-f" (str (:root project) "/pom.xml")
+                       "process-resources" :return-map true)]
+        (when (pos? (:exit result))
+          (throw (Exception. (:out result))))))))

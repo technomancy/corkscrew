@@ -35,6 +35,11 @@
                {:tag :artifactId :content [name]}
                {:tag :name :content [name]}
                {:tag :groupId :content [group]}
+               ;; TODO: allow custom version of clojure-pom
+               {:tag :parent
+                :content [{:tag :artifactId :content ["clojure-pom"]}
+                          {:tag :groupId :content ["org.clojure"]}
+                          {:tag :version :content ["1.0.0"]}]}
                {:tag :version :content [version]}
                {:tag :dependencies
                 :content (map dependency-xml dependencies)}

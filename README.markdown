@@ -17,8 +17,7 @@ Here's a sample project file:
     {:name "my-sample"
      :version "1.0"
      :namespaces '(my-sample)
-     :dependencies [["clojure" "1.0.0" "org.clojure"]
-                    ["rome" "0.9"]]
+     :dependencies [["rome" "0.9"]]
      :source-dependencies [["clojure-contrib" "r663" :svn
                             "http://clojure-contrib.googlecode.com/svn/trunk"]
                            ["enlive" "95b2558943f50bb9962fe7d500ede353f1b578f0"
