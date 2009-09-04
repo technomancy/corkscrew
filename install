@@ -4,11 +4,11 @@ cd `dirname $0`
 
 rm target/corkscrew*with-dependencies.jar 2> /dev/null
 
-mvn process-resources assembly:assembly || echo "Build failed." && exit 1
+mvn process-resources assembly:assembly || (echo "Build failed." && exit 1)
 
 # Installing jar file
 mkdir -p $HOME/.corkscrew
-rm $HOME/.corkscrew/corkscrew.jar
+rm $HOME/.corkscrew/corkscrew.jar 2> /dev/null
 cp target/corkscrew*with-dependencies.jar $HOME/.corkscrew/corkscrew.jar
 echo "Corkscrew compiled and installed in ~/.corkscrew."
 
