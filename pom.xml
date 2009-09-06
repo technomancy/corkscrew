@@ -27,6 +27,7 @@
                   <sysproperty key="clojure.compile.path"
                                value="${project.build.outputDirectory}" />
                   <arg value="cork.screw.deps"/>
+                  <arg value="cork.screw.pom"/>
                 </java>
               </tasks>
             </configuration>
@@ -39,12 +40,17 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>clojure-contrib</artifactId>
-      <version>1.0.0</version>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-dependency-plugin</artifactId>
       <version>2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-embedder</artifactId>
+      <version>2.0.4</version>
     </dependency>
   </dependencies>
   <repositories>

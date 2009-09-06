@@ -39,15 +39,7 @@
   (assoc (read-string (slurp (.getAbsolutePath project-file)))
     :root (.getAbsolutePath (.getParentFile project-file))))
 
-(defmacro with-preserving-file
-  "Execute body and preserve the contents of file."
-  [file-name & body]
-  `(let [temp-file# (java.io.File/createTempFile "pom-" ".xml")]
-     (try
-      (when (.exists ~file-name)
-        (copy-file ~file-name temp-file#))
-      ~@body
-      (finally
-       (if (.exists temp-file#)
-         (copy-file temp-file# ~file-name)
-         (.delete (file temp-file#)))))))
+(defn into-list [c]
+  (let [l (java.util.LinkedList.)]
+    (doseq [e c] (.add l e))
+    l))
